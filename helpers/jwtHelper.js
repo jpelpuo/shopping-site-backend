@@ -19,7 +19,7 @@ module.exports = {
             jwt.sign(payload, secret, options, (error, token) => {
                 if (error) {
                     console.log(error);
-                    return reject(createError.InternalServerError(error));
+                    return reject(createError.InternalServerError());
                 }
                 resolve(token);
             })
@@ -56,7 +56,7 @@ module.exports = {
             jwt.sign(payload, secret, options, (error, token) => {
                 if (error) {
                     console.log(error);
-                    return reject(createError.InternalServerError(error));
+                    return reject(createError.InternalServerError());
                 }
                 resolve(token);
             })

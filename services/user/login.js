@@ -14,11 +14,11 @@ module.exports = login = async ({ email, password }) => {
         const isEqual = await bcrypt.compare(password, user.password);
 
         if (!isEqual) {
-            throw new createError.BadRequest("Invalid email/password!")
+            throw new createError.Unauthorized("Invalid email/password!")
         }
 
-        const accessToken = createAccessToken(user.id, user.email);
-        const refreshToken = createRefreshToken(user.id, user.email);
+        const accessToken = await createAccessToken(user.id, user.email);
+        const refreshToken = await createRefreshToken(user.id, user.email);
 
         return {
             accessToken,

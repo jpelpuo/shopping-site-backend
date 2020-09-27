@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const chalk = require('chalk');
 const createError = require('http-errors');
+const isAuthenticated = require('./middleware/isAuthenticated')
 require('dotenv').config();
 
 
@@ -26,6 +27,7 @@ const user = require('./routes/api/user');
 
 // Initializing middleware
 app.use(cors());
+app.use(isAuthenticated);
 
 app.use(bodyParser.urlencoded({
     extended: true

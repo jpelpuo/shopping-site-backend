@@ -1,7 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const createError = require('http-errors');
-const { register } = require('../../services/index')
+const { register, login } = require('../../services/index')
 
 const router = express.Router();
 
@@ -36,9 +36,14 @@ router.post('/auth', [
             const [error] = errors.array();
             throw createError.BadRequest(error.msg);
         }
+
+        const authData = await login(request.body);
+        return response.json(authData);
     } catch (error) {
         next(error)
     }
 })
+
+// router.get
 
 module.exports = router;
