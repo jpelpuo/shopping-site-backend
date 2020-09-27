@@ -10,7 +10,6 @@ require('dotenv').config();
 // Importing helpers and utilities
 const connectToDatabase = require('./utils/database');
 
-
 const app = express();
 
 // Connecting to database
@@ -23,7 +22,8 @@ const app = express();
 })();
 
 // Importing routes
-const user = require('./routes/api/user');
+const userRoutes = require('./routes/api/user');
+const cartRoutes = require('./routes/api/cart');
 
 // Initializing middleware
 app.use(cors());
@@ -37,7 +37,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // Registering routes
-app.use('/api/user', user);
+app.use('/api/user', userRoutes);
+app.use('/api/cart', cartRoutes);
 
 // Catch 404 and forward to error handler
 app.use(async (request, response, next) => {
