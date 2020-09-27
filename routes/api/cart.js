@@ -1,7 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const createError = require('http-errors');
-const { addToCart, removeFromCart, clearCart } = require('../../services');
+const { removeFrom, clearField, addTo } = require('../../services');
 const { checkAuthorization } = require('../../helpers/authHelper');
 
 
@@ -9,6 +9,11 @@ const router = express.Router();
 
 const SUCCESS = 'success';
 const FAILURE = 'failure';
+
+// Call service functions
+const addToCart = addTo('Cart');
+const removeFromCart = removeFrom('Cart');
+const clearCart = clearField('Cart');
 
 
 // @route GET /api/cart/add

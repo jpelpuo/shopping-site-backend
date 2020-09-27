@@ -1,13 +1,13 @@
 const login = require('./user/login');
 const register = require('./user/register');
-const addToCart = require('./cart/addToCart');
-const removeFromCart = require('./cart/removeFromCart');
-const clearCart = require('./cart/clearCart');
+const addTo = require('./addTo');
+const removeFrom = require('./removeFrom');
+const clearField = require('./clearField');
 
 module.exports = {
     login,
     register,
-    addToCart,
-    removeFromCart,
-    clearCart
+    addTo,
+    removeFrom,
+    clearField
 }
