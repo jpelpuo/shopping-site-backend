@@ -6,8 +6,8 @@ const { verifyRefreshToken, createAccessToken, createRefreshToken } = require('.
 
 const router = express.Router();
 
-// @router GET api/users
-// @desc Get All Users
+// @router POST api/users/register
+// @description Register a user
 router.post('/register', [
     body('email', 'Invalid email!').isEmail()
 ], async (request, response, next) => {
@@ -28,6 +28,8 @@ router.post('/register', [
     }
 })
 
+// @route POST api/user/auth
+// @description Login/Authenticate a user
 router.post('/auth', [
     body('email', 'Invalid email!').isEmail()
 ], async (request, response, next) => {
@@ -45,6 +47,8 @@ router.post('/auth', [
     }
 })
 
+// @route POST api/user/refresh-token
+// @description Get a new access token
 router.post('/refresh-auth', [
     body('refreshToken', 'Invalid refresh token').notEmpty()
 ], async (request, response, next) => {

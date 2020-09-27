@@ -19,7 +19,25 @@ const userSchema = Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    wishlist: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Product'
+        }
+    ],
+    history: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'History'
+        }
+    ],
+    cart: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Product'
+        }
+    ]
 });
 
 module.exports = model('User', userSchema);
