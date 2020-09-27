@@ -1,7 +1,8 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const createError = require('http-errors');
-const { register, login } = require('../../services/index')
+const { register, login } = require('../../services/index');
+const { verifyRefreshToken, createAccessToken, createRefreshToken } = require('../../helpers/jwtHelper');
 
 const router = express.Router();
 
@@ -44,6 +45,32 @@ router.post('/auth', [
     }
 })
 
-// router.get
+router.post('/refresh-auth', [
+    body('refreshToken', 'Invalid refresh token').notEmpty()
+], async (request, response, next) => {
+    try {
+        const errors = validationResult(request);
+
+        if (!errors.isEmpty()) {
+            const [error] = errors.array();
+            throw createError.BadRequest(error.msg);
+        }
+
+        const { refreshToken: oldRefreshToken } = request.body;
+
+        const { userId, email } = await verifyRefreshToken(oldRefreshToken);
+
+        const accessToken = await createAccessToken(userId, email);
+        const newRefreshToken = await createRefreshToken(userId, email);
+
+        return response.json({
+            accessToken,
+            refreshToken: newRefreshToken
+        })
+
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router;
