@@ -24,6 +24,7 @@ const app = express();
 // Importing routes
 const userRoutes = require('./routes/api/user');
 const cartRoutes = require('./routes/api/cart');
+const productRoutes = require('./routes/api/product')
 
 // Initializing middleware
 app.use(cors());
@@ -39,6 +40,7 @@ app.use(bodyParser.json());
 // Registering routes
 app.use('/api/user', userRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/product', productRoutes);
 
 // Catch 404 and forward to error handler
 app.use(async (request, response, next) => {

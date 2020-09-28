@@ -18,7 +18,7 @@ module.exports = register = async ({ firstName, lastName, email, password }) => 
 
         password = hash;
 
-        const newUser = User({
+        const newUser = new User({
             firstName,
             lastName,
             email,

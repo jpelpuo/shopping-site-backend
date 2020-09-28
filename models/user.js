@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 
-const userSchema = Schema({
+const userSchema = new Schema({
     firstName: {
         type: String,
         required: true
@@ -35,7 +35,7 @@ const userSchema = Schema({
     cart: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Product'
+            ref: 'CartItem'
         }
     ]
 });

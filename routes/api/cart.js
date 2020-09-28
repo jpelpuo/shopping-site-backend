@@ -1,7 +1,5 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
-const createError = require('http-errors');
-const { removeFrom, clearField, addTo } = require('../../services');
+const { clearField, getItems, addToCart, removeFromCart} = require('../../services');
 const { checkAuthorization } = require('../../helpers/authHelper');
 
 
@@ -11,9 +9,10 @@ const SUCCESS = 'success';
 const FAILURE = 'failure';
 
 // Call service functions
-const addToCart = addTo('Cart');
-const removeFromCart = removeFrom('Cart');
+// const addToCart = addTo('Cart');
+// const removeFromCart = removeFrom('Cart');
 const clearCart = clearField('Cart');
+const getCartItems = getItems('Cart');
 
 
 // @route GET /api/cart/add
@@ -24,15 +23,17 @@ router.get('/add/:productId', async (request, response, next) => {
 
         const { productId } = request.params;
 
-        console.log(productId)
-
         const itemAdded = await addToCart(productId, request.userId);
 
         if (!itemAdded) {
-            return response.send(FAILURE)
+            return response.json({
+                status: FAILURE
+            })
         }
 
-        return response.send(SUCCESS);
+        return response.json({
+            status: SUCCESS
+        })
     } catch (error) {
         next(error);
     }
@@ -49,9 +50,13 @@ router.delete('/remove/:productId', async (request, response, next) => {
         const itemRemoved = await removeFromCart(productId, request.userId);
 
         if (!itemRemoved) {
-            return response.send(FAILURE);
+            return response.json({
+                status: FAILURE
+            });
         }
-        return response.send(SUCCESS);
+        return response.json({
+            status: SUCCESS
+        });
     } catch (error) {
         next(error);
     }
@@ -66,20 +71,34 @@ router.get('/clear', async (request, response, next) => {
         const itemsCleared = await clearCart(request.userId);
 
         if (!itemsCleared) {
-            return response.send(FAILURE)
+            return response.json({
+                status: FAILURE
+            })
         }
 
-        return response.send(SUCCESS);
+        return response.json({
+            status: SUCCESS
+        });
     } catch (error) {
         next(error);
     }
 })
 
-// // @route GET /api/cart
-// // @description Get cart items
-// router.post('/', async (request, response, next) => {
+// @route GET /api/cart
+// @description Get cart items
+router.get('/', async (request, response, next) => {
+    try {
+        checkAuthorization(request);
 
-// })
+        const items = await getCartItems(request.userId);
+
+        return response.json({
+            cartItems: [...items.cart]
+        })
+    } catch (error) {
+        next(error)
+    }
+})
 
 
 module.exports = router;

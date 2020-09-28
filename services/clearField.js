@@ -1,5 +1,6 @@
-const User = require('../models/user');
 const createError = require('http-errors');
+const CartItem = require('../models/cartItem');
+const User = require('../models/user');
 
 module.exports = addTo = (targetField) => {
     return async (...args) => {
@@ -12,9 +13,11 @@ module.exports = addTo = (targetField) => {
                 throw createError.NotFound("User not found.")
             }
 
+            let operationInfo;
             switch (targetField) {
                 case 'Cart':
                     user.cart = [];
+                    operationInfo = await CartItem.deleteMany({ belongsTo: userId });
                     break;
                 default:
                     user.wishlist = [];
@@ -23,10 +26,7 @@ module.exports = addTo = (targetField) => {
 
             await user.save();
 
-            return {
-                ...user._doc,
-                password: null
-            }
+            return operationInfo;
 
         } catch (error) {
             throw error;

@@ -14,6 +14,7 @@ module.exports = addTo = (targetField) => {
 
             switch (targetField) {
                 case 'Cart':
+                    
                     user.cart = [productId, ...user.cart];
                     break;
                 default:
