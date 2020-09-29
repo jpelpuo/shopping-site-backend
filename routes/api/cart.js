@@ -1,6 +1,7 @@
 const express = require('express');
-const { clearField, getItems, addToCart, removeFromCart} = require('../../services');
+const { clearField, getItems, addToCart, removeFromCart } = require('../../services');
 const { checkAuthorization } = require('../../helpers/authHelper');
+const updateCartItem = require('../../services/cart/updateCartItem');
 
 
 const router = express.Router();
@@ -9,8 +10,6 @@ const SUCCESS = 'success';
 const FAILURE = 'failure';
 
 // Call service functions
-// const addToCart = addTo('Cart');
-// const removeFromCart = removeFrom('Cart');
 const clearCart = clearField('Cart');
 const getCartItems = getItems('Cart');
 
@@ -84,16 +83,43 @@ router.get('/clear', async (request, response, next) => {
     }
 })
 
+// @route UPDATE /api/cart/update
+// @descritpion Update cart item
+router.post('/update/:productId', async (request, response, next) => {
+    try {
+        checkAuthorization(request);
+
+        const { productId } = request.params;
+        const { quantity } = request.body;
+
+        const itemUpdated = await updateCartItem(productId, request.userId, quantity);
+
+        if (!itemUpdated) {
+            return response.json({
+                status: FAILURE,
+                message: "No item updated"
+            })
+        }
+
+        return response.json({
+            status: SUCCESS,
+            message: "Item updated"
+        })
+    } catch (error) {
+        next(error)
+    }
+})
+
 // @route GET /api/cart
 // @description Get cart items
 router.get('/', async (request, response, next) => {
     try {
         checkAuthorization(request);
 
-        const items = await getCartItems(request.userId);
+        const cartItems = await getCartItems(request.userId);
 
         return response.json({
-            cartItems: [...items.cart]
+            cartItems
         })
     } catch (error) {
         next(error)

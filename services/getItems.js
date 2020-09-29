@@ -19,9 +19,10 @@ module.exports = getItems = targetField => {
                     await user
                         .populate({
                             path: 'cart',
-                            populate: { 
-                                path: 'item belongsTo', 
-                                select: '_id name firstName lastName price description stock category' },
+                            populate: {
+                                path: 'item belongsTo',
+                                select: '_id name firstName lastName price description stock category'
+                            },
                         })
                         .execPopulate()
 
@@ -33,10 +34,7 @@ module.exports = getItems = targetField => {
                     break;
             }
 
-            return {
-                ...user._doc,
-                password: null
-            }
+            return items;
         } catch (error) {
             throw error;
         }

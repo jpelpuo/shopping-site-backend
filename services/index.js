@@ -8,6 +8,7 @@ const getProducts = require('./product/getProducts');
 const addToCart = require('./cart/addToCart');
 const removeFromCart = require('./cart/removeFromCart');
 const clearCart = require('./cart/clearCart');
+const updateCartItem = require('./cart/updateCartItem')
 
 module.exports = {
     login,
@@ -17,5 +18,6 @@ module.exports = {
     getProducts,
     addToCart,
     removeFromCart,
-    clearCart
+    clearCart,
+    updateCartItem
 }
