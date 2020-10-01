@@ -34,8 +34,6 @@ router.get('/clear', async (request, response, next) => {
 
         const historyCleared = await clearHistory(request.userId);
 
-        console.log(historyCleared)
-
         if (!historyCleared) {
             return response.json({
                 status: FAILURE
