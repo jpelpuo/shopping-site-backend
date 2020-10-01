@@ -12,8 +12,8 @@ module.exports = addToCart = async (productId, userId) => {
 
         const cartItems = await CartItem.find();
 
-        const [foundItem] = cartItems.filter(item => {
-            return item.itemId.toString() === productId.toString();
+        const [foundItem] = cartItems.filter(cartitem => {
+            return cartitem.item.toString() === productId.toString();
         });
 
         if (!foundItem) {

@@ -8,12 +8,13 @@ const historySchema = new Schema({
     },
     date: {
         type: Date,
-        required: true
+        required: true,
+        default: new Date()
     },
     productsPurchased: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Product',
+            ref: 'CartItem',
             required: true
         }
     ],

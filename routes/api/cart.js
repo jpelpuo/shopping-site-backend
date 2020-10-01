@@ -1,7 +1,13 @@
 const express = require('express');
-const { clearField, getItems, addToCart, removeFromCart } = require('../../services');
+const {
+    clearField,
+    getItems,
+    addToCart,
+    removeFromCart,
+    updateCartItem,
+    checkout
+} = require('../../services');
 const { checkAuthorization } = require('../../helpers/authHelper');
-const updateCartItem = require('../../services/cart/updateCartItem');
 
 
 const router = express.Router();
@@ -83,9 +89,9 @@ router.get('/clear', async (request, response, next) => {
     }
 })
 
-// @route UPDATE /api/cart/update
+// @route PUT /api/cart/update
 // @descritpion Update cart item
-router.post('/update/:productId', async (request, response, next) => {
+router.put('/update/:productId', async (request, response, next) => {
     try {
         checkAuthorization(request);
 
@@ -123,6 +129,30 @@ router.get('/', async (request, response, next) => {
         })
     } catch (error) {
         next(error)
+    }
+})
+
+// @route POST /api/checkout
+// @description Checkout
+router.post('/checkout', [], async (request, response, next) => {
+    try {
+        checkAuthorization(request);
+
+        const { totalAmount, cardDetails } = request.body;
+
+        const historyAdded = await checkout(request.userId, totalAmount, cardDetails);
+
+        if (!historyAdded) {
+            return response.json({
+                status: FAILURE
+            })
+        }
+
+        return response.json({
+            status: SUCCESS
+        })
+    } catch (error) {
+        next(error);
     }
 })
 

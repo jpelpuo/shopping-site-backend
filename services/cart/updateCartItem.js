@@ -10,19 +10,7 @@ module.exports = updateCartItem = async (productId, userId, quantity) => {
             throw createError.NotFound("User not found.")
         }
 
-        // const cartItems = await CartItem.find();
-
-        // const [foundItem] = cartItems.filter(item => {
-        //     return item.itemId.toString() === productId.toString();
-        // });
-
-        // if(!foundItem){
-        //     throw createError.NotFound("Item in cart");
-        // }
-
-        const updatedItem = await CartItem.update({ item: productId }, {
-            quantity
-        })
+        const updatedItem = await CartItem.update({ item: productId }, { quantity });
 
         return updatedItem.n !== 0 && updatedItem.nModified !== 0;
     } catch (error) {

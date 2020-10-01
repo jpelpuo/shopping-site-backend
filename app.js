@@ -24,7 +24,9 @@ const app = express();
 // Importing routes
 const userRoutes = require('./routes/api/user');
 const cartRoutes = require('./routes/api/cart');
-const productRoutes = require('./routes/api/product')
+const productRoutes = require('./routes/api/product');
+const wishlistRoutes = require('./routes/api/wishlist');
+const historyRoutes = require('./routes/api/history');
 
 // Initializing middleware
 app.use(cors());
@@ -34,13 +36,14 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
 app.use(bodyParser.json());
 
 // Registering routes
 app.use('/api/user', userRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/history', historyRoutes);
 
 // Catch 404 and forward to error handler
 app.use(async (request, response, next) => {
@@ -49,6 +52,7 @@ app.use(async (request, response, next) => {
 
 // Error handler
 app.use((error, request, response, next) => {
+    console.log(error)
     response.status(error.status || 500);
     response.send({
         error: {

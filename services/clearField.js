@@ -1,8 +1,9 @@
 const createError = require('http-errors');
 const CartItem = require('../models/cartItem');
+const History = require('../models/history');
 const User = require('../models/user');
 
-module.exports = addTo = (targetField) => {
+module.exports = clearField = (targetField) => {
     return async (...args) => {
         try {
             const [userId] = args;
@@ -19,8 +20,13 @@ module.exports = addTo = (targetField) => {
                     user.cart = [];
                     operationInfo = await CartItem.deleteMany({ belongsTo: userId });
                     break;
+                case 'History':
+                    user.history = [];
+                    operationInfo = await History.deleteMany({ user: userId });
+                    break;
                 default:
                     user.wishlist = [];
+                    operationInfo = await user.save();
                     break;
             }
 

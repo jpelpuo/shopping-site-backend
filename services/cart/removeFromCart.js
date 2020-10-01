@@ -12,8 +12,8 @@ module.exports = removeFromCart = async (productId, userId) => {
 
         const cartItems = await CartItem.find();
 
-        const [foundItem] = cartItems.filter(item => {
-            return item.itemId.toString() === productId.toString();
+        const [foundItem] = cartItems.filter(cartItem => {
+            return cartItem.item.toString() === productId.toString();
         });
 
         let deletedItem;

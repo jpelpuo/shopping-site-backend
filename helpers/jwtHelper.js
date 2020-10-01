@@ -18,7 +18,6 @@ module.exports = {
 
             jwt.sign(payload, secret, options, (error, token) => {
                 if (error) {
-                    console.log(error);
                     return reject(createError.InternalServerError());
                 }
                 resolve(token);
@@ -30,12 +29,11 @@ module.exports = {
         return new Promise((resolve, reject) => {
             jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
                 if(error){
-                    console.log(error);
                     const errorMessage = error.message === 'JsonWebTokenError' ? 'Unauthorized' : error.message;
                     reject(createError.InternalServerError(errorMessage));
                 }
 
-                resolve(payload)
+                resolve(payload);
             })
         })
     },
@@ -55,7 +53,6 @@ module.exports = {
 
             jwt.sign(payload, secret, options, (error, token) => {
                 if (error) {
-                    console.log(error);
                     return reject(createError.InternalServerError());
                 }
                 resolve(token);
@@ -67,7 +64,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, payload) => {
                 if(error){
-                    console.log(error);
                     const errorMessage = error.message === 'JsonWebTokenError' ? 'Unauthorized' : error.message;
                     reject(createError.InternalServerError(errorMessage));
                 }

@@ -29,7 +29,9 @@ module.exports = getItems = targetField => {
                     items = [...user.cart];
                     break;
                 default:
-                    await user.populate('wishlist').execPopulate();
+                    await user
+                        .populate('wishlist')
+                        .execPopulate();
                     items = [...user.wishlist]
                     break;
             }
