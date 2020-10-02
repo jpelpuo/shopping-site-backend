@@ -45,6 +45,10 @@ app.use('/api/product', productRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/history', historyRoutes);
 
+app.get('', async (req, res, next) => {
+    res.send("Hi")
+})
+
 // Catch 404 and forward to error handler
 app.use(async (request, response, next) => {
     next(createError.NotFound());
