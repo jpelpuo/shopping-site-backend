@@ -24,8 +24,9 @@ module.exports = login = async ({ email, password }) => {
             accessToken,
             refreshToken,
             userId: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName
+            ...user._doc,
+            password: null
+            
         }
 
     } catch (error) {
